@@ -18,9 +18,9 @@ This script exports Shopify store data, including Products, Orders, Blogs, and m
 ```
 
 ### **2️⃣ Install Dependencies**
-Ensure you have Python installed. Then, install required dependencies:
+Ensure you have Python installed. Then, install the required dependencies:
 ```sh
-pip install requests pandas beautifulsoup4
+pip install -r requirements.txt
 ```
 
 ![XPORTIFY Banner](https://github.com/CSR2HUB/Shopify-XPOREFY/blob/main/xportefy.png)
@@ -52,7 +52,7 @@ python export_shopify.py
 - Blog articles are stored **individually** per category.
 
 ## 🛑 Error Logging
-Errors are logged in `error_log.txt` for debugging.
+Errors are logged in `error_log.txt` inside the export folder for debugging.
 
 ## 📜 License
 This project is open-source. Feel free to modify and use it.

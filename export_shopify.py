@@ -2,11 +2,10 @@ import requests
 import json
 import os
 import pandas as pd
-import psutil
 import time
-import subprocess
 from bs4 import BeautifulSoup
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 # Shopify API version
 API_VERSION = "2025-01"
@@ -43,13 +42,6 @@ def display_welcome():
     print("🚀 Export & Download – HUB handles everything automatically.\n")
     print("=" * 50)
 
-# Function to save stores
-def save_store(store):
-    stores = load_stores()
-    stores[store["store_url"]] = store  # Save using store URL as key
-    with open(STORE_FILE, "w") as file:
-        json.dump(stores, file, indent=4)
-
 # Function to fetch store details from Shopify API
 def fetch_store_info(api_key, admin_access_token, store_url):
     """Fetch Shopify store details using API key and access token."""
@@ -72,10 +64,6 @@ def fetch_store_info(api_key, admin_access_token, store_url):
     except requests.exceptions.RequestException as e:
         print(f"❌ API request failed: {str(e)}")
         return None, None, None
-
-# 📌 File to save store credentials
-STORE_FILE = "stores.json"
-store_credentials = {}
 
 # Shopify API endpoints
 SHOPIFY_ENDPOINTS = {
@@ -101,7 +89,7 @@ def get_export_folder():
 def log_error(message):
     """Logs errors to a file with a timestamp."""
     folder = get_export_folder()  # Ensure folder is defined dynamically
-    error_log = os.path.join(folder, "error_log.txt")  # Use get_export_folder()
+    error_log = os.path.join(folder, ERROR_LOG_FILE)
     
     with open(error_log, "a") as f:
         f.write(f"{datetime.now()} - {message}\n")
@@ -520,6 +508,7 @@ def migrate_data():
     print(f"📦 Source Store: {store_credentials['store_name']} ({store_credentials['store_url']})\n")
 
 # 🚀 Start the script
-display_welcome()
-setup_store()  # Load or select store
-main_menu()
+if __name__ == "__main__":
+    display_welcome()
+    setup_store()  # Load or select store
+    main_menu()
