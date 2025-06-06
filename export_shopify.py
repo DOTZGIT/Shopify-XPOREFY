@@ -2,9 +2,8 @@ import requests
 import json
 import os
 import pandas as pd
-import psutil
 import time
-import subprocess
+from xml.etree import ElementTree as ET
 from bs4 import BeautifulSoup
 from datetime import datetime
 
@@ -13,7 +12,6 @@ API_VERSION = "2025-01"
 
 # 📌 File to save store credentials
 STORE_FILE = "stores.json"
-ERROR_LOG_FILE = "error_log.txt"
 store_credentials = {}
 
 # Display the welcome banner
@@ -43,12 +41,6 @@ def display_welcome():
     print("🚀 Export & Download – HUB handles everything automatically.\n")
     print("=" * 50)
 
-# Function to save stores
-def save_store(store):
-    stores = load_stores()
-    stores[store["store_url"]] = store  # Save using store URL as key
-    with open(STORE_FILE, "w") as file:
-        json.dump(stores, file, indent=4)
 
 # Function to fetch store details from Shopify API
 def fetch_store_info(api_key, admin_access_token, store_url):
@@ -72,10 +64,6 @@ def fetch_store_info(api_key, admin_access_token, store_url):
     except requests.exceptions.RequestException as e:
         print(f"❌ API request failed: {str(e)}")
         return None, None, None
-
-# 📌 File to save store credentials
-STORE_FILE = "stores.json"
-store_credentials = {}
 
 # Shopify API endpoints
 SHOPIFY_ENDPOINTS = {
@@ -375,7 +363,6 @@ def fetch_data(endpoint, store, folder, formats=[]):
 
 # Function to export Shopify data
 def export_shopify_data():
-    global store_credentials
     ensure_store_credentials()
     folder = get_export_folder()
 
