@@ -3,6 +3,7 @@ import json
 import os
 import pandas as pd
 import time
+import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 from datetime import datetime
 import xml.etree.ElementTree as ET
