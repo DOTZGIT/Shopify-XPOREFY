@@ -3,9 +3,10 @@ import json
 import os
 import pandas as pd
 import time
-from xml.etree import ElementTree as ET
+import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 # Shopify API version
 API_VERSION = "2025-01"
@@ -89,7 +90,7 @@ def get_export_folder():
 def log_error(message):
     """Logs errors to a file with a timestamp."""
     folder = get_export_folder()  # Ensure folder is defined dynamically
-    error_log = os.path.join(folder, "error_log.txt")  # Use get_export_folder()
+    error_log = os.path.join(folder, ERROR_LOG_FILE)
     
     with open(error_log, "a") as f:
         f.write(f"{datetime.now()} - {message}\n")
@@ -508,6 +509,7 @@ def migrate_data():
     print(f"📦 Source Store: {store_credentials['store_name']} ({store_credentials['store_url']})\n")
 
 # 🚀 Start the script
-display_welcome()
-setup_store()  # Load or select store
-main_menu()
+if __name__ == "__main__":
+    display_welcome()
+    setup_store()  # Load or select store
+    main_menu()
